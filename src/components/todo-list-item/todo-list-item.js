@@ -1,12 +1,61 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 
-class TodoListItem extends React.Component {
+class TodoListItem extends Component {
   state = {
     checked: this.props.done,
     taskCreated: new Date(),
     editing: false,
     editedDescription: this.props.description,
+    minutes: this.props.minutes,
+    seconds: this.props.seconds,
+    timerRunning: false,
+  }
+
+  timerInterval = null
+
+  componentDidMount() {
+    if (this.state.timerRunning) {
+      this.timerInterval = setInterval(this.decreaseTime, 1000)
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerInterval)
+  }
+
+  decreaseTime = () => {
+    if (this.state.minutes === 0 && this.state.seconds === 0) {
+      clearInterval(this.timerInterval)
+      return
+    }
+
+    if (this.state.seconds === 0) {
+      this.setState((prevState) => ({
+        minutes: prevState.minutes - 1,
+        seconds: 59,
+      }))
+    } else {
+      this.setState((prevState) => ({
+        seconds: prevState.seconds - 1,
+      }))
+    }
+  }
+
+  handleStartTimer = () => {
+    if (!this.state.timerRunning) {
+      this.setState({
+        timerRunning: true,
+      })
+      this.timerInterval = setInterval(this.decreaseTime, 1000)
+    }
+  }
+
+  handlePauseTimer = () => {
+    clearInterval(this.timerInterval)
+    this.setState({
+      timerRunning: false,
+    })
   }
 
   handleToggleDone = () => {
@@ -40,13 +89,13 @@ class TodoListItem extends React.Component {
   }
 
   render() {
-    const { description, done } = this.props
-    const { checked, taskCreated, editing, editedDescription } = this.state
+    const { description } = this.props
+    const { checked, taskCreated, editing, editedDescription, minutes, seconds } = this.state
     const formattedDistance = formatDistanceToNow(taskCreated)
 
     let classNamesLi = ''
     let classNamesDiv = 'view'
-    if (done) {
+    if (checked) {
       classNamesLi = 'completed'
     }
 
@@ -85,7 +134,14 @@ class TodoListItem extends React.Component {
             />
           ) : (
             <label htmlFor={`todo-${todoNum}`}>
-              <span className="description">{editedDescription}</span>
+              <span className="description">
+                {editedDescription}
+                <button type="button" className="icon icon-play" onClick={this.handleStartTimer} />
+                <button type="button" className="icon icon-pause" onClick={this.handlePauseTimer} />
+                <span className="timer">
+                  {minutes}:{seconds}
+                </span>
+              </span>
               <span className="created">{formattedDistance} ago</span>
             </label>
           )}

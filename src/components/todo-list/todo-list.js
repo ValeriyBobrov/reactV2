@@ -6,6 +6,8 @@ function TodoList({ todos, onDeleted, onToggleDone, handleEditItem }) {
   const elements = todos.map((item) => (
     <TodoListItem
       description={item.description}
+      minutes={item.minutes}
+      seconds={item.seconds}
       key={item.id}
       done={item.done}
       onDeleted={() => onDeleted(item.id)}

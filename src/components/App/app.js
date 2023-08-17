@@ -18,12 +18,12 @@ export default class App extends React.Component {
     })
   }
 
-  addNewItem = (text) => {
+  addNewItem = (text, minutes, seconds) => {
     if (text.trim().length === 0) {
       return
     }
 
-    const newItem = this.createTodoItem(text)
+    const newItem = this.createTodoItem(text, minutes, seconds)
 
     this.setState(({ todoData }) => {
       const newArray = [...todoData, newItem]
@@ -66,9 +66,11 @@ export default class App extends React.Component {
     })
   }
 
-  createTodoItem(text) {
+  createTodoItem(text, minutes, seconds) {
     return {
       description: text,
+      minutes,
+      seconds,
       id: this.maxId++,
       done: false,
     }
