@@ -8,6 +8,7 @@ function TodoList({ todos, onDeleted, onToggleDone, handleEditItem }) {
       description={item.description}
       minutes={item.minutes}
       seconds={item.seconds}
+      id={item.id}
       key={item.id}
       done={item.done}
       onDeleted={() => onDeleted(item.id)}

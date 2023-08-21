@@ -42,12 +42,12 @@ export default class AppHeader extends React.Component {
     const { minutes, seconds } = this.state
     const errors = {}
 
-    if (minutes !== '' && !/^\d+$/.test(minutes)) {
-      errors.minutes = 'Minutes must be a number'
+    if ((minutes !== '' && !/^\d+$/.test(minutes)) || minutes > 60) {
+      errors.minutes = 'Minutes must be a number and less 60'
     }
 
-    if (seconds !== '' && !/^\d+$/.test(seconds)) {
-      errors.seconds = 'Seconds must be a number'
+    if ((seconds !== '' && !/^\d+$/.test(seconds)) || seconds > 60) {
+      errors.seconds = 'Seconds must be a number and less 60'
     }
 
     this.setState({ errors })

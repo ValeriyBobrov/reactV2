@@ -15,13 +15,26 @@ class TodoListItem extends Component {
   timerInterval = null
 
   componentDidMount() {
-    if (this.state.timerRunning) {
+    const timerRunning = JSON.parse(sessionStorage.getItem(`timerRunning_${this.props.id}`)) || false
+    const minutes = JSON.parse(sessionStorage.getItem(`minutes_${this.props.id}`)) || this.props.minutes
+    const seconds = JSON.parse(sessionStorage.getItem(`seconds_${this.props.id}`)) || this.props.seconds
+
+    this.setState({
+      timerRunning,
+      minutes,
+      seconds,
+    })
+
+    if (timerRunning) {
       this.timerInterval = setInterval(this.decreaseTime, 1000)
     }
   }
 
   componentWillUnmount() {
     clearInterval(this.timerInterval)
+    sessionStorage.setItem(`timerRunning_${this.props.id}`, JSON.stringify(this.state.timerRunning))
+    sessionStorage.setItem(`minutes_${this.props.id}`, JSON.stringify(this.state.minutes))
+    sessionStorage.setItem(`seconds_${this.props.id}`, JSON.stringify(this.state.seconds))
   }
 
   decreaseTime = () => {
@@ -153,4 +166,4 @@ class TodoListItem extends Component {
   }
 }
 
-export default TodoListItem
+export default React.memo(TodoListItem)
