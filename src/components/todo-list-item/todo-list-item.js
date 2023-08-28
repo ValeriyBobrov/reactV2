@@ -38,7 +38,7 @@ class TodoListItem extends Component {
   }
 
   decreaseTime = () => {
-    if (this.state.minutes === 0 && this.state.seconds === 0) {
+    if (this.state.minutes < 1 && this.state.seconds < 1) {
       clearInterval(this.timerInterval)
       return
     }
