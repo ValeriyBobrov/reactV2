@@ -2,18 +2,19 @@ import React from 'react'
 
 import TodoListItem from '../todo-list-item'
 
-function TodoList({ todos, onDeleted, onToggleDone, handleEditItem }) {
+function TodoList({ todos, onDeleted, onToggleDone, handleEditItem, filterData }) {
   const elements = todos.map((item) => (
     <TodoListItem
       description={item.description}
-      minutes={item.minutes}
-      seconds={item.seconds}
+      minutesData={item.minutes}
+      secondsData={item.seconds}
       id={item.id}
       key={item.id}
       done={item.done}
       onDeleted={() => onDeleted(item.id)}
       onToggleDone={() => onToggleDone(item.id)}
       handleEditItem={handleEditItem}
+      filterData={filterData}
     />
   ))
 
