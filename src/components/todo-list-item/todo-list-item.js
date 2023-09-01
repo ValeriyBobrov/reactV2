@@ -49,10 +49,10 @@ function TodoListItem({ description, minutesData, secondsData, id, done, onDelet
   useEffect(() => {
     return () => {
       sessionStorage.setItem(`timerRunning_${id}`, JSON.stringify(timerRunning))
-      sessionStorage.setItem(`minutes_${id}`, JSON.stringify(minutes))
-      sessionStorage.setItem(`seconds_${id}`, JSON.stringify(seconds))
+      sessionStorage.setItem(`minutes_${id}`, JSON.stringify(minutesData))
+      sessionStorage.setItem(`seconds_${id}`, JSON.stringify(secondsData))
     }
-  }, [id, timerRunning, minutes, seconds])
+  }, [id, timerRunning, minutesData, secondsData])
 
   const handleStartTimer = () => {
     setTimerRunning(true)

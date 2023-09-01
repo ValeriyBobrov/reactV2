@@ -35,13 +35,15 @@ function App() {
   }
 
   const createTodoItem = (text, minutes, seconds) => {
-    return {
+    const newTodoItem = {
       description: text,
       minutes,
       seconds,
-      id: maxId++,
+      id: maxId,
       done: false,
     }
+    maxId++
+    return newTodoItem
   }
 
   const addNewItem = (text, minutes, seconds) => {
