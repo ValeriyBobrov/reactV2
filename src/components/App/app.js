@@ -7,8 +7,7 @@ import Footer from '../footer'
 function App() {
   const [todoData, setTodoData] = useState([])
   const [filterData, setFilter] = useState('all')
-
-  let maxId = 100
+  const [maxId, setMaxId] = useState(100)
 
   const clearItems = () => {
     setTodoData([])
@@ -42,7 +41,7 @@ function App() {
       id: maxId,
       done: false,
     }
-    maxId++
+    setMaxId(maxId + 1)
     return newTodoItem
   }
 

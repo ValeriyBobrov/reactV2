@@ -13,15 +13,16 @@ function TodoListItem({ description, minutesData, secondsData, id, done, onDelet
   const decreaseTime = useCallback(() => {
     if (minutes < 1 && seconds < 1) {
       setTimerRunning(false)
+      return
     }
 
-    if (seconds === 0) {
+    if (seconds === 0 && timerRunning === true) {
       setMinutes((prevState) => prevState - 1)
       setSeconds(59)
-    } else {
+    } else if (timerRunning === true) {
       setSeconds((prevState) => prevState - 1)
     }
-  }, [minutes, seconds, setTimerRunning, setMinutes, setSeconds])
+  }, [minutes, seconds, setTimerRunning, setMinutes, setSeconds, timerRunning])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -49,10 +50,10 @@ function TodoListItem({ description, minutesData, secondsData, id, done, onDelet
   useEffect(() => {
     return () => {
       sessionStorage.setItem(`timerRunning_${id}`, JSON.stringify(timerRunning))
-      sessionStorage.setItem(`minutes_${id}`, JSON.stringify(minutesData))
-      sessionStorage.setItem(`seconds_${id}`, JSON.stringify(secondsData))
+      sessionStorage.setItem(`minutes_${id}`, JSON.stringify(minutes))
+      sessionStorage.setItem(`seconds_${id}`, JSON.stringify(seconds))
     }
-  }, [id, timerRunning, minutesData, secondsData])
+  }, [id, timerRunning, minutes, seconds])
 
   const handleStartTimer = () => {
     setTimerRunning(true)
